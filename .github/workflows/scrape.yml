@@ -33,4 +33,4 @@ jobs:
           git config user.email "bot@example.com"
           git add docs/
           git commit -m "Update scraped HTML" || echo "No changes"
-          git push https://x-access-token:$GH_PAT@github.com/${{ github.repository }}.git
+          git push https://x-access-token:$GH_PAT@github.com/${{ github.repository }}.git HEAD:main
