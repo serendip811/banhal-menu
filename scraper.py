@@ -35,8 +35,8 @@ def login():
     return session
 
 def get_saved_dates():
-    os.makedirs("public", exist_ok=True)
-    return {f.replace(".html", "") for f in os.listdir("public") if re.match(r"\d{4}-\d{2}-\d{2}\.html", f)}
+    os.makedirs("docs", exist_ok=True)
+    return {f.replace(".html", "") for f in os.listdir("docs") if re.match(r"\d{4}-\d{2}-\d{2}\.html", f)}
 
 def find_new_post(session, saved_dates):
     res = session.get(LIST_URL, headers=HEADERS)
@@ -81,7 +81,7 @@ def save_post_content(session, wr_id, post_date):
         return
 
     html = content_div.prettify()
-    filename = f"public/{post_date}.html"
+    filename = f"docs/{post_date}.html"
 
     with open(filename, "w", encoding="utf-8") as f:
         f.write(html)
