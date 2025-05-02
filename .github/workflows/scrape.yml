@@ -1,0 +1,34 @@
+name: Scrape Banchan HTML
+
+on:
+  schedule:
+    - cron: "0 1 * * *"  # 매일 10시 (KST 기준)
+  workflow_dispatch:
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run scraper
+        env:
+          BANCHAN_ID: ${{ secrets.BANCHAN_ID }}
+          BANCHAN_PW: ${{ secrets.BANCHAN_PW }}
+        run: python scraper.py
+
+      - name: Commit results
+        run: |
+          git config user.name "banchan-bot"
+          git config user.email "bot@example.com"
+          git add public/
+          git commit -m "Update scraped HTML" || echo "No changes"
+          git push
